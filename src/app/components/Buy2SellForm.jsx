@@ -1,19 +1,57 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 
 export default function Buy2SellForm() {
-  const plotSizes = ["2700SQM", "1800SQM", "900SQM", "600SQM", "450SQM", "300SQM", "150SQM"];
-  const plans = ["Flourish Luxury Villa Epe", "Flourish Luxury Villa Monastery", "Flourish Luxury Villa Ilorin"];
-  const durations = ["12months", "18months", "24months"];
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState('');
+  
+    const plotSizes = ["2700SQM", "1800SQM", "900SQM", "600SQM", "450SQM", "300SQM", "150SQM"];
+    const plans = ["Flourish Luxury Villa Epe", "Flourish Luxury Villa Monastery", "Flourish Luxury Villa Ilorin"];
+    const durations = ["12months", "18months", "24months"];
 
-  const inputStyles = "mt-1 block w-full outline-none border-b focus:border-blue-500 focus:ring-0 sm:text-sm";
+    const inputStyles = "mt-1 block w-full outline-none border-b focus:border-blue-500 focus:ring-0 sm:text-sm";
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('');
 
+        // Create FormData object
+        const formData = new FormData(e.target);
+        
+        try {
+        // Replace this URL with your Google Apps Script Web App URL
+        const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            setSubmitStatus('Form submitted successfully!');
+            e.target.reset();
+        } else {
+            setSubmitStatus('Error submitting form. Please try again.');
+        }
+        } catch (error) {
+        setSubmitStatus('Error submitting form. Please try again.');
+        console.error('Submission error:', error);
+        }
+
+        setIsSubmitting(false);
+    };
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5 sm:px-20">
       <div className="max-w-4xl mx-auto bg-white px-8 pb-8 shadow-md rounded-md">
         <div className='-p-8 -pt-10'>
         <img src="/buytosell header.png" alt="BuyToSell"/>
         </div>
-        <form className="space-y-6">
+
+        {submitStatus && (
+          <div className={`mb-4 p-4 rounded ${submitStatus.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+            {submitStatus}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Section 1: Subscriber Details */}
           <div>
             <h2 className="text-xl font-medium mb-4">Subscriber Details</h2>
@@ -199,7 +237,7 @@ export default function Buy2SellForm() {
               </div>
               <div className='w-full'>
                 <span className="block text-sm font-medium text-gray-700">Mode of Profit Payment</span>
-                <div className="mt-1 space-y-2 w-full justify-between flex">
+                <div className="mt-1 space-y-2 w-full justify-between flex flex-col md:flex-row">
                     <div className='flex gap-6 w-1/2'>
                         <label className="flex items-center">
                             <input type="checkbox" name="payment-mode" value="Cheque" className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
@@ -227,6 +265,15 @@ export default function Buy2SellForm() {
                 </div>
               </div>
             </div>
+            <div className="mt-6">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full sm:w-auto px-12 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit Form'}
+            </button>
+          </div>
           </div>
         </form>
       </div>
