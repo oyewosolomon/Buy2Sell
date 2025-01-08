@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from 'react';
 import Terms from './Terms';
 
@@ -264,7 +266,10 @@ export default function Buy2SellForm() {
                 </div>
               </div>
             </div>
-            <div className="mt-6">
+           
+          </div>
+          <Terms/>
+          <div className="mt-6">
             <button
               type="submit"
               disabled={isSubmitting}
@@ -273,8 +278,6 @@ export default function Buy2SellForm() {
               {isSubmitting ? 'Submitting...' : 'Submit Form'}
             </button>
           </div>
-          </div>
-          <Terms/>
         </form>
       </div>
 
