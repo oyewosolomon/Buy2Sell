@@ -1,6 +1,5 @@
-'use client';
-
 import React, { useState } from 'react';
+import Terms from './Terms';
 
 export default function Buy2SellForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -10,7 +9,7 @@ export default function Buy2SellForm() {
     const plans = ["Flourish Luxury Villa Epe", "Flourish Luxury Villa Monastery", "Flourish Luxury Villa Ilorin"];
     const durations = ["12months", "18months", "24months"];
 
-    const inputStyles = "mt-1 block w-full outline-none border-b focus:border-blue-500 focus:ring-0 sm:text-sm";
+    const inputStyles = "mt-1 block w-full px-3 py-2 bg-white border-0 border-b border-gray-300 focus:border-blue-500 focus:ring-0 transition-colors duration-200 ease-in-out sm:text-sm";
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -57,8 +56,8 @@ export default function Buy2SellForm() {
             <h2 className="text-xl font-medium mb-4">Subscriber Details</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name (Surname Othername)</label>
-                <input type="text" id="name" name="name" className={inputStyles} required />
+                <label htmlFor="name" className="block text-sm font-medium  text-gray-700">Name (Surname Othername)</label>
+                <input type="text" id="name" name="name" className="inline-block w-64 border-0 outline-none border-b bg-transparent focus:border-blue-500 focus:ring-0 sm:text-sm" required />
               </div>
               <div>
                 <span className="block text-sm font-medium text-gray-700">Title</span>
@@ -275,8 +274,10 @@ export default function Buy2SellForm() {
             </button>
           </div>
           </div>
+          <Terms/>
         </form>
       </div>
+
     </div>
   );
 }
